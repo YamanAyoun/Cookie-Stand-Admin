@@ -130,16 +130,43 @@ function Form() {
 
       <div className="m-20">
         <h2 className="text-xl font-bold">Saved Data</h2>
-        <ul>
-          {localStorage.getItem("formData") &&
-            JSON.parse(localStorage.getItem("formData")).map((data, index) => (
-              <li key={index}>
-                <p>{JSON.stringify(data)}</p>
-              </li>
-            ))}
-        </ul>
+        {localStorage.getItem("formData") ? (
+          <table className="border-collapse border border-gray-400">
+            <thead>
+              <tr>
+                <th className="border border-gray-400 p-2">Location</th>
+                <th className="border border-gray-400 p-2">
+                  Minimum Customers per Hour
+                </th>
+                <th className="border border-gray-400 p-2">
+                  Maximum Customers per Hour
+                </th>
+                <th className="border border-gray-400 p-2">
+                  Average Cookies per Sale
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {JSON.parse(localStorage.getItem("formData")).map((data, index) => (
+                <tr key={index}>
+                  <td className="border border-gray-400 p-2">{data.Location}</td>
+                  <td className="border border-gray-400 p-2">
+                    {data.minCustomersPerHour}
+                  </td>
+                  <td className="border border-gray-400 p-2">
+                    {data.maxCustomersPerHour}
+                  </td>
+                  <td className="border border-gray-400 p-2">
+                    {data.avgCookiesPerSale}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <p>No data available.</p>
+        )}
       </div>
-
     </div>
   );
 }
