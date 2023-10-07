@@ -1,39 +1,145 @@
-import React from "react";
+'use client'
+import React, { useState } from "react";
 
 function Form() {
+  // Define the initial state for formData
+  const [formData, setFormData] = useState({
+    Location: "",
+    minCustomersPerHour: "",
+    maxCustomersPerHour: "",
+    avgCookiesPerSale: "",
+  });
+
+  // Define the handleInputChange function
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  // Define the handleSubmit function
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Create a JSON object from the form data
+    const newData = {
+      Location: formData.Location,
+      minCustomersPerHour: formData.minCustomersPerHour,
+      maxCustomersPerHour: formData.maxCustomersPerHour,
+      avgCookiesPerSale: formData.avgCookiesPerSale,
+    };
+
+    // Retrieve existing data from local storage or initialize an empty array
+    const savedData = JSON.parse(localStorage.getItem("formData")) || [];
+
+    // Add the new data to the array
+    savedData.push(newData);
+
+    // Save the updated array back to local storage
+    localStorage.setItem("formData", JSON.stringify(savedData));
+
+    // Clear the form after submission
+    setFormData({
+      Location: "",
+      minCustomersPerHour: "",
+      maxCustomersPerHour: "",
+      avgCookiesPerSale: "",
+    });
+  };
+
   return (
     <div className="h-screen">
-      <form className="bg-emerald-400 rounded-lg p-8 m-20">
-        <h2 className="text-2xl text-center p-2 font-bold">Cookies Stand Admin</h2>
+      <form
+        className="bg-emerald-400 rounded-lg p-8 m-20"
+        onSubmit={handleSubmit}
+      >
+        <h2 className="text-2xl text-center p-2 font-bold">
+          Cookies Stand Admin
+        </h2>
         <div className="p-5">
-        <label for="Location">Location</label><br />
-        <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" id="Location" name="Location" />
+          <label htmlFor="Location">Location</label>
+          <br />
+          <input
+            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            type="text"
+            id="Location"
+            name="Location"
+            value={formData.Location}
+            onChange={handleInputChange}
+          />
         </div>
-        <div class="flex flex-wrap -mx-3 mb-2 p-5">
-    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-city">
-        Minimum Customers per Hour
-      </label>
-      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="text"/>
-    </div>
-    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-city">
-       Maximum Customers per Hour
-      </label>
-      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="text"/>
-    </div>
-    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-zip">
-        Average Cookies per Sale
-      </label>
-      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip" type="text"/>
-   </div>
-    </div>
-    <button class="flex-shrink-0 bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-black py-1 px-2 rounded" type="button">
-      Create
-    </button>
+        <div className="flex flex-wrap -mx-3 mb-2 p-5">
+          <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+            <label
+              className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+              htmlFor="minCustomersPerHour"
+            >
+              Minimum Customers per Hour
+            </label>
+            <input
+              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              id="minCustomersPerHour"
+              type="text"
+              name="minCustomersPerHour"
+              value={formData.minCustomersPerHour}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+            <label
+              className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+              htmlFor="maxCustomersPerHour"
+            >
+              Maximum Customers per Hour
+            </label>
+            <input
+              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              id="maxCustomersPerHour"
+              type="text"
+              name="maxCustomersPerHour"
+              value={formData.maxCustomersPerHour}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+            <label
+              className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+              htmlFor="avgCookiesPerSale"
+            >
+              Average Cookies per Sale
+            </label>
+            <input
+              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              id="avgCookiesPerSale"
+              type="text"
+              name="avgCookiesPerSale"
+              value={formData.avgCookiesPerSale}
+              onChange={handleInputChange}
+            />
+          </div>
+        </div>
+        <button
+          className="flex-shrink-0 bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-black py-1 px-2 rounded"
+          type="submit"
+        >
+          Create
+        </button>
       </form>
-      
+
+      <div className="m-20">
+        <h2 className="text-xl font-bold">Saved Data</h2>
+        <ul>
+          {localStorage.getItem("formData") &&
+            JSON.parse(localStorage.getItem("formData")).map((data, index) => (
+              <li key={index}>
+                <p>{JSON.stringify(data)}</p>
+              </li>
+            ))}
+        </ul>
+      </div>
+
     </div>
   );
 }
